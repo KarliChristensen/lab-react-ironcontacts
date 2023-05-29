@@ -11,10 +11,45 @@ function App() {
     setState((prevState) => [...prevState, randomCeleb]);
   };
 
+  const sortByName = () => {
+    const sortedN = [...state].sort((a, b) => {
+      if (a.name > b.name) {
+        return 1;
+      } else if (a.name < b.name) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+    setState(sortedN);
+  };
+
+  const sortByPopularity = () => {
+    const sortedP = [...state].sort((a, b) => {
+      if (a.popularity > b.popularity) {
+        return 1;
+      } else if (a.popularity < b.popularity) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+    setState(sortedP);
+  };
+
+  const deleteCeleb = () => {
+    const newCelebs = [...state].filter((celeb) => {
+      return celeb.name !== state[0].name;
+    });
+    setState(newCelebs);
+  };
+
   return (
     <div className="App">
       <h1>Ironhack Contacts</h1>
-      <button onClick={findRandomCeleb}>Add Random</button>
+      <button onClick={findRandomCeleb}>Add Random celeb</button>
+      <button onClick={sortByName}>Sort by name</button>
+      <button onClick={sortByPopularity}>Sort by popularity</button>
       <table>
         <thead>
           <tr>
@@ -23,6 +58,7 @@ function App() {
             <th>Popularity</th>
             <th>Won Oscar</th>
             <th>Won Emmy</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -40,6 +76,9 @@ function App() {
                 <td>{contact.popularity}</td>
                 <td>{contact.wonOscar ? "🏆" : null}</td>
                 <td>{contact.wonEmmy ? "🏆" : null}</td>
+                <td>
+                  <button onClick={deleteCeleb}>Delete</button>
+                </td>
               </tr>
             );
           })}
